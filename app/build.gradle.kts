@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -59,37 +60,42 @@ dependencies {
     // Lifecycles only (without ViewModel or LiveData)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     // Annotation processor
-    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+    kapt(libs.androidx.lifecycle.compiler)
 
     //Coroutine implementation
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation(libs.kotlinx.coroutines.android)
 
     //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
 
     //glide implementation
-    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation(libs.glide)
     kapt("com.github.bumptech.glide:compiler:4.15.1")
 
     //implementation of dagger hilt
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     //implementation of timber
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
 
     //Implementation of Firebase
+    // Import the BoM for the Firebase platform
+    implementation(platform(libs.firebase.bom))
 
-    //Implementation of Firebase firestore
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(libs.google.firebase.firestore)
 
-    //Implementation of Firebase storage
+    // Add the dependency for the Cloud Storage library
+    implementation(libs.firebase.storage)
 
     //Implementation of Firebase coroutines
 
     //Implementation of ExoPlayer
-    implementation("androidx.media3:media3-exoplayer:1.4.1")
-    implementation("androidx.media3:media3-ui:1.4.1")
+    implementation(libs.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
 
 
 }
