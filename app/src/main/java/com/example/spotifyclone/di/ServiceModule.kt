@@ -3,6 +3,7 @@ package com.example.spotifyclone.di
 import android.content.Context
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
+import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import dagger.Module
 import dagger.Provides
@@ -31,5 +32,11 @@ object ServiceModule {
         setAudioAttributes(audioAttributes, true)
         setHandleAudioBecomingNoisy(true)
     }
+
+    @ServiceScoped
+    @Provides
+    fun providesDataSourceFactory(
+        @ApplicationContext context: Context
+    ) = DefaultDataSource.Factory(context)
 
 }
