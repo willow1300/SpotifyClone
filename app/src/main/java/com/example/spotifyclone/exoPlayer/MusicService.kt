@@ -9,8 +9,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import com.example.spotifyclone.exoPlayer.callBacks.MusicPlayerNotificationListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ import javax.inject.Inject
 
 private const val SERVICE_TAG = "MusicService"
 
+@UnstableApi
 @AndroidEntryPoint
 class MusicService: MediaBrowserServiceCompat() {
 
@@ -29,11 +32,15 @@ class MusicService: MediaBrowserServiceCompat() {
     @Inject
     lateinit var exoPlayer: ExoPlayer
 
+    private lateinit var musicNotificationManager: MusicNotificationManager
+
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
     
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaControllerCompat: MediaControllerCompat
+
+    var isForegroundService = false
 
     override fun onCreate() {
         super.onCreate()
@@ -50,6 +57,14 @@ class MusicService: MediaBrowserServiceCompat() {
         }
 
         sessionToken = mediaSession.sessionToken
+
+        musicNotificationManager = MusicNotificationManager(
+            this,
+            mediaSession.sessionToken,
+            MusicPlayerNotificationListener(this)
+        ){
+
+        }
 
         mediaControllerCompat = MediaControllerCompat(this, mediaSession).apply {
             registerCallback(object : MediaControllerCompat.Callback(){
