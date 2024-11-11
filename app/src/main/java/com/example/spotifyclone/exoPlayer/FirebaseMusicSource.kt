@@ -75,7 +75,7 @@ class FirebaseMusicSource @Inject constructor( private val musicDatabase: MusicD
 
         MediaBrowserCompat.MediaItem(desc, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
 
-    }
+    }.toMutableList()
 
     private val onReadyListeners = mutableListOf<(Boolean) -> Unit>()
 
