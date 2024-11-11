@@ -94,9 +94,6 @@ dependencies {
     //Implementation of Firebase coroutines
 
     //Implementation of ExoPlayer
-//    implementation(libs.media3.exoplayer)
-//    implementation(libs.androidx.media3.ui)
-//    implementation(libs.androidx.media3.session) // Add this line
     implementation(libs.androidx.media3.exoplayer.v100)
     implementation(libs.androidx.media3.ui.v100)
     implementation(libs.androidx.media3.session.v100) // Ensure this is added
